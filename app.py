@@ -2,7 +2,14 @@ import streamlit as st
 
 # Set layout to "wide" to use more screen space
 st.set_page_config(page_title="Azwad's Portfolio", page_icon="👋", layout="wide")
-
+st.markdown("""
+    <style>
+    /* Hide the Streamlit toolbar at the top right */
+    div[data-testid="stToolbar"] {
+        display: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
 # --- SIDEBAR ---
 with st.sidebar:
     # st.image("profile_pic.jpg") # Uncomment and add your image file to the folder later
