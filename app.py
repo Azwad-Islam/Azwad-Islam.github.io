@@ -1,50 +1,74 @@
 import streamlit as st
 
-# Configure the page
-st.set_page_config(page_title="Azwad's Portfolio", page_icon="👋", layout="centered")
+# Set layout to "wide" to use more screen space
+st.set_page_config(page_title="Azwad's Portfolio", page_icon="👋", layout="wide")
 
-# --- HERO SECTION ---
-st.title("Azwad Islam Sachcha")
-st.subheader("Software Engineer & M.Eng. Data Science/AI Student")
-st.write("""
-I am a software engineer with enterprise experience in C# and Angular, currently pursuing my Master's in Data Science and Artificial Intelligence in Munich. 
-I specialize in bridging the gap between robust backend systems and advanced machine learning models.
-""")
+# --- SIDEBAR ---
+with st.sidebar:
+    # st.image("profile_pic.jpg") # Uncomment and add your image file to the folder later
+    st.title("Azwad Islam Sachcha")
+    st.write("Software Engineer & M.Eng. Data Science Student")
+    st.divider()
+    st.write("📍 Munich, Germany")
+    st.write("📧 [Email Me](mailto:your.email@example.com)")
+    st.write("🔗 [LinkedIn](https://linkedin.com) | [GitHub](https://github.com)")
 
-# Add a download button for your CV (ensure you put your PDF in the same folder)
-# with open("resume.pdf", "rb") as pdf_file:
-#     PDFbyte = pdf_file.read()
-# st.download_button(label="📄 Download Resume", data=PDFbyte, file_name="Azwad_Resume.pdf", mime="application/octet-stream")
+    st.divider()
+    # Resume download can live neatly in the sidebar
+    # with open("resume.pdf", "rb") as pdf_file:
+    #     st.download_button("📄 Download Resume", pdf_file.read(), "Azwad_Resume.pdf", "application/octet-stream")
 
-st.divider()
+# --- MAIN CONTENT TABS ---
+tab_about, tab_projects, tab_experience = st.tabs(["👤 About Me", "🚀 Projects", "💼 Experience"])
 
-# --- SKILLS SECTION ---
-st.header("🛠️ Technical Stack")
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.write("**Data Science**")
-    st.write("- Python")
-    st.write("- pandas & NumPy")
-    st.write("- PyTorch / Bi-LSTMs")
-with col2:
-    st.write("**Software Engineering**")
-    st.write("- C# & .NET")
-    st.write("- Angular & JavaScript")
-with col3:
-    st.write("**Tools & Cloud**")
-    st.write("- Git & GitHub")
-    st.write("- Streamlit")
+# --- TAB 1: ABOUT ME ---
+with tab_about:
+    st.header("Bridging Software Engineering and AI")
+    st.write("""
+    I am a software engineer with enterprise experience in C# and Angular, currently pursuing my Master's in Data Science and Artificial Intelligence at MUDT. 
+    I specialize in bridging the gap between robust backend systems and advanced machine learning models.
+    """)
 
-st.divider()
+    st.subheader("🛠️ Technical Stack")
+    col1, col2, col3 = st.columns(3)
 
-# --- PROJECTS & EXPERIENCE ---
-st.header("🚀 Featured Work")
+    # Using bordered containers to create a "card" effect
+    with col1:
+        with st.container(border=True):
+            st.write("**Data Science & AI**")
+            st.write("Python, pandas, NumPy, PyTorch")
+    with col2:
+        with st.container(border=True):
+            st.write("**Full-Stack Engineering**")
+            st.write("C#, .NET, Angular, JavaScript")
+    with col3:
+        with st.container(border=True):
+            st.write("**Tools & Architecture**")
+            st.write("Git, Streamlit, REST APIs")
 
-st.subheader("Audio Emotion Detection Model")
-st.write("Developed a Transformer-based Hybrid Bidirectional LSTM model for emotion detection in audio. Achieved a final evaluation accuracy of 79%.")
+# --- TAB 2: PROJECTS ---
+with tab_projects:
+    st.header("Featured Work")
 
-st.subheader("Junior Software Engineer @ Threesquare")
-st.write("Developed scalable enterprise applications utilizing C#, the .NET framework, and Angular. (Feb 2025 - Present)")
+    # Expanders keep the UI clean while holding lots of detail
+    with st.expander("🎧 Audio Emotion Detection Model", expanded=True):
+        st.write("**Technologies:** Python, Transformers, Bi-LSTM")
+        st.write("Developed a Transformer-based Hybrid Bidirectional LSTM model for emotion detection in audio.")
+        st.success("Achieved a final evaluation accuracy of 79%.")  # .success gives it a nice green highlight
 
-st.subheader("Sensor Data Processing")
-st.write("Currently developing Python scripts for accelerometer calibration and sensor data processing using pandas and NumPy.")
+    with st.expander("📊 Sensor Data Processing"):
+        st.write("**Technologies:** Python, pandas, NumPy")
+        st.write(
+            "Developed automated Python scripts for accelerometer calibration and raw sensor data processing as part of M.Eng coursework.")
+
+# --- TAB 3: EXPERIENCE ---
+with tab_experience:
+    st.header("Professional Experience")
+
+    st.subheader("Software Engineer | Threesquare")
+    st.caption("Feb 2025 - Present")
+    st.write("""
+    * Promoted from Intern to full-time Junior Software Engineer in June 2025.
+    * Engineered scalable enterprise applications utilizing C# and the .NET framework.
+    * Developed dynamic frontend user interfaces with Angular and JavaScript.
+    """)
