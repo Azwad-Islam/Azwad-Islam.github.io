@@ -11,7 +11,7 @@ with st.sidebar:
     st.divider()
     st.write("📍 Munich, Germany")
     st.write("📧 [Email Me](mailto:your.email@example.com)")
-    st.write("🔗 [LinkedIn](https://linkedin.com) | [GitHub](https://github.com)")
+    st.write("🔗 [LinkedIn](https://www.linkedin.com/in/azwad-islam/) | [GitHub](https://github.com/Azwad-Islam)")
 
     st.divider()
     # Resume download can live neatly in the sidebar
