@@ -12,12 +12,30 @@ st.markdown("""
 """, unsafe_allow_html=True)
 # --- SIDEBAR ---
 with st.sidebar:
-    # st.image("profile_pic.jpg") # Uncomment and add your image file to the folder later
+    # st.image("profile_pic.jpg") #
+    with st.sidebar:
+        # 1. Inject CSS to make the sidebar image circular
+        st.markdown("""
+            <style>
+            [data-testid="stSidebar"] img {
+                border-radius: 50%;
+                width: 200px; /* Adjust size as needed */
+                height: 200px;
+                object-fit: cover;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+
+        # 2. Display the image
+        st.image("profile_photo.jpg")
     st.title("Azwad Islam Sachcha")
     st.write("Software Engineer & M.Eng. Data Science Student")
     st.divider()
     st.write("📍 Munich, Germany")
-    st.write("📧 [Email Me](mailto:your.email@example.com)")
+    st.write("📧 [Email Me](mailto:azwad.sachcha@gmail.com)")
     st.write("🔗 [LinkedIn](https://www.linkedin.com/in/azwad-islam/) | [GitHub](https://github.com/Azwad-Islam)")
 
     st.divider()
@@ -32,8 +50,8 @@ tab_about, tab_projects, tab_experience = st.tabs(["👤 About Me", "🚀 Projec
 with tab_about:
     st.header("Bridging Software Engineering and AI")
     st.write("""
-    I am a software engineer with enterprise experience in C# and Angular, currently pursuing my Master's in Data Science and Artificial Intelligence at MUDT. 
-    I specialize in bridging the gap between robust backend systems and advanced machine learning models.
+    I am a software engineer with enterprise experience in C# and Angular, currently pursuing my Master's in Data Science and Artificial Intelligence at Munich University of Digital Technologies and Applied Sciences. 
+    I specialize in Software engineering and honing my skills in AI and Data Science.
     """)
 
     st.subheader("🛠️ Technical Stack")
