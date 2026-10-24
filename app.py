@@ -10,17 +10,29 @@ with st.sidebar:
         # 1. Inject CSS to make the sidebar image circular
         st.markdown("""
             <style>
+            /* 1. Make the sidebar image circular */
             [data-testid="stSidebar"] img {
                 border-radius: 50%;
-                width: 200px; /* Adjust size as needed */
+                width: 200px;
                 height: 200px;
                 object-fit: cover;
                 display: block;
                 margin-left: auto;
                 margin-right: auto;
             }
+
+            /* 2. Hide the right-side toolbar (Fork/Deploy/Menu) */
+            [data-testid="stToolbar"] {
+                display: none !important;
+            }
+
+            /* 3. Explicitly protect the sidebar toggle button so it never disappears */
+            [data-testid="collapsedControl"] {
+                display: block !important; 
+                visibility: visible !important;
+            }
             </style>
-            """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
         # 2. Display the image
         st.image("profile_photo.jpg")
