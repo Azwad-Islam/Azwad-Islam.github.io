@@ -33,7 +33,7 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     # 2. Display the image
-    st.image("profile_photo.jpg")
+    st.image("azwad_profile_photo 3-4.jpg")
 
     st.title("Azwad Islam Sachcha")
     st.write("Software Engineer & M.Eng. Data Science Student")
