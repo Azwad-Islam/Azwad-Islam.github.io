@@ -1,0 +1,368 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  /* --- Strip Streamlit's default chrome so the page fills the window --- */
+  [data-testid="stHeader"], [data-testid="stToolbar"], [data-testid="stDecoration"] { display: none !important; }
+  .stApp { background: #0B0D12; }
+  .block-container, [data-testid="stMainBlockContainer"] { padding: 0 !important; max-width: none !important; }
+  [data-testid="stVerticalBlock"] { gap: 0 !important; }
+
+  /* --- Design tokens --- */
+  .site {
+    --bg: #0B0D12;
+    --surface: #12151C;
+    --surface-2: #181C25;
+    --border: #232836;
+    --text: #E8EAF0;
+    --muted: #9AA1B2;
+    --accent: #7C9CFF;
+    --accent-2: #5EE6C4;
+    --radius: 16px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, "Source Sans Pro", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .site * { box-sizing: border-box; margin: 0; padding: 0; }
+  .site a { color: inherit; text-decoration: none; }
+  .site h1, .site h2, .site h3 { color: var(--text); font-family: inherit; padding: 0; }
+  .site .container { width: calc(100% - 32px); max-width: 1200px; margin: 0 auto; }
+
+  /* Nav */
+  .site .nav { position: sticky; top: 0; z-index: 10; background: rgba(11, 13, 18, 0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+  .site .nav .container { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  .site .logo { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+  .site .logo span { color: var(--accent); }
+  .site .nav-links { display: flex; gap: 32px; color: var(--muted); font-size: 15px; font-weight: 500; }
+  .site .nav-links a:hover { color: var(--text); }
+  .site .nav-actions { display: flex; gap: 8px; }
+  .site .nav-actions .btn { height: 40px; padding: 0 16px; }
+  .site .btn { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 20px; border-radius: 10px; font-size: 15px; font-weight: 600; transition: transform .15s, border-color .15s; }
+  .site .btn:hover { transform: translateY(-1px); }
+  .site .btn-primary { background: var(--accent); color: #0B0D12 !important; }
+  .site .btn-ghost { border: 1px solid var(--border); color: var(--text); background: var(--surface); }
+  .site .btn-ghost:hover { border-color: var(--accent); }
+  .site .btn .icon { width: 18px; height: 18px; }
+
+  /* Hero */
+  .site .hero { padding: 96px 0 88px; }
+  .site .hero .container { display: flex; flex-direction: row-reverse; align-items: center; justify-content: space-between; gap: 64px; }
+  .site .hero-text { max-width: 700px; }
+  .site .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 14px; font-weight: 500; }
+  .site .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-2); }
+  .site .hero h1 { margin-top: 24px; font-size: 64px; line-height: 1.08; font-weight: 700; letter-spacing: -0.03em; }
+  .site .hero h1 .grad { color: var(--accent); }
+  .site .lead { margin-top: 24px; font-size: 19px; color: var(--muted); max-width: 620px; }
+  .site .hero-actions { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .site .hero-meta { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 28px; color: var(--muted); font-size: 15px; }
+  .site .hero-meta a, .site .hero-meta div { display: flex; align-items: center; gap: 8px; }
+  .site .hero-meta a:hover { color: var(--text); }
+  .site .hero-meta .icon { width: 18px; height: 18px; }
+  .site .photo-wrap { flex: none; width: 380px; height: 380px; border-radius: 50%; padding: 6px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+  .site .photo { width: 100%; height: 100%; border-radius: 50%; border: 6px solid var(--bg); object-fit: cover; display: block; }
+
+  /* Sections */
+  .site section.block { padding: 88px 0; border-top: 1px solid var(--border); scroll-margin-top: 72px; }
+  .site .eyebrow { color: var(--accent); font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+  .site h2 { margin-top: 12px; font-size: 40px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em; }
+
+  .site .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px; }
+  .site .grid-3 { margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .site .card h3 { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
+  .site .card p { margin-top: 10px; color: var(--muted); font-size: 15px; }
+  .site .icon-box { width: 44px; height: 44px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .site .icon-box .icon { width: 22px; height: 22px; }
+  .site .tags { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .site .tag { padding: 4px 12px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text); font-size: 13px; font-weight: 500; }
+
+  .site .langs { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 24px; }
+  .site .lang { display: flex; align-items: center; gap: 12px; padding: 16px 24px; }
+  .site .lang span { color: var(--muted); font-size: 15px; }
+
+  /* Projects */
+  .site .project { display: flex; flex-direction: column; padding: 0; overflow: hidden; transition: transform .2s, border-color .2s; }
+  .site .project:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .site .project-cover { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 48px; border-bottom: 1px solid var(--border); }
+  .site .cover-1 { background: linear-gradient(135deg, #1D2550, #2B1F4A); }
+  .site .cover-2 { background: linear-gradient(135deg, #10333A, #14403A); }
+  .site .cover-3 { background: linear-gradient(135deg, #3A2A12, #40261A); }
+  .site .cover-4 { background: linear-gradient(135deg, #33162E, #2A1A3F); }
+  .site .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .site .project-body { padding: 28px; }
+  .site .metric { margin-top: 18px; display: inline-flex; padding: 6px 12px; border-radius: 8px; background: rgba(94, 230, 196, 0.12); color: var(--accent-2); font-size: 14px; font-weight: 600; }
+
+  /* Experience & education */
+  .site .two-col { margin-top: 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .site .col-title { font-size: 14px; color: var(--muted); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
+  .site .timeline { display: flex; flex-direction: column; gap: 20px; }
+  .site .entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+  .site .entry-head h3 { font-size: 19px; }
+  .site .date { color: var(--muted); font-size: 14px; white-space: nowrap; }
+  .site .org { margin-top: 4px; color: var(--accent); font-size: 15px; font-weight: 500; }
+  .site .entry ul { margin-top: 14px; padding-left: 18px; color: var(--muted); font-size: 15px; }
+  .site .entry li { margin: 0; padding: 0; }
+  .site .entry li + li { margin-top: 6px; }
+
+  /* Contact */
+  .site .contact { text-align: center; }
+  .site .contact-card { padding: 64px 32px; background: linear-gradient(135deg, #161B2E, #12151C); }
+  .site .contact-card p { margin: 16px auto 0; color: var(--muted); font-size: 17px; max-width: 560px; }
+  .site .contact-actions { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+  .site footer { border-top: 1px solid var(--border); padding: 28px 0; color: var(--muted); font-size: 14px; }
+  .site footer .container { display: flex; justify-content: space-between; gap: 16px; }
+
+  /* --- Tablet & phone --- */
+  @media (max-width: 960px) {
+    .site .nav-links { display: none; }
+    .site .hero { padding: 56px 0; }
+    .site .hero .container { flex-direction: column-reverse; align-items: flex-start; gap: 40px; }
+    .site .photo-wrap { width: 220px; height: 220px; }
+    .site .hero h1 { font-size: 42px; }
+    .site .lead { font-size: 17px; }
+    .site section.block { padding: 64px 0; }
+    .site h2 { font-size: 32px; }
+    .site .grid-3, .site .two-col { grid-template-columns: 1fr; }
+    .site .entry-head { flex-direction: column; gap: 2px; }
+    .site .contact-card { padding: 48px 20px; }
+  }
+</style>
+
+<div class="site">
+
+<nav class="nav">
+  <div class="container">
+    <div class="logo">Azwad<span>.</span></div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <!-- CV button hidden for now
+      <a class="btn btn-ghost" href="app/static/azwad_islam_cv.pdf" download="Azwad_Islam_Sachcha_CV.pdf">
+        <img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRThFQUYwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDN2MTIiLz48cGF0aCBkPSJtNyAxMCA1IDUgNS01Ii8+PHBhdGggZD0iTTUgMjFoMTQiLz48L3N2Zz4=">
+        CV
+      </a>
+      -->
+      <a class="btn btn-ghost" href="app/static/azwad_islam_resume.pdf" download="Azwad_Islam_Sachcha_Resume.pdf">
+        <img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRThFQUYwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDN2MTIiLz48cGF0aCBkPSJtNyAxMCA1IDUgNS01Ii8+PHBhdGggZD0iTTUgMjFoMTQiLz48L3N2Zz4=">
+        Resume
+      </a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="about">
+  <div class="container">
+    <div class="hero-text">
+      <div class="badge"><span class="dot"></span>Seeking a working student role in software engineering or AI</div>
+      <h1>Hi, I'm Azwad.<br><span class="grad">Bridging software engineering and AI.</span></h1>
+      <p class="lead">Software engineer with 1.5 years of full-stack experience in C#, ASP.NET Core, Angular and PostgreSQL, now pursuing an M.Eng. in Data Science &amp; AI in Munich. Background in deep learning research (PyTorch), with a focus on LLMs, RAG and intelligent agents.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#projects">View my work</a>
+        <!-- CV button hidden for now
+        <a class="btn btn-ghost" href="app/static/azwad_islam_cv.pdf" download="Azwad_Islam_Sachcha_CV.pdf">
+          <img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRThFQUYwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDN2MTIiLz48cGF0aCBkPSJtNyAxMCA1IDUgNS01Ii8+PHBhdGggZD0iTTUgMjFoMTQiLz48L3N2Zz4=">
+          CV
+        </a>
+        -->
+        <a class="btn btn-ghost" href="app/static/azwad_islam_resume.pdf" download="Azwad_Islam_Sachcha_Resume.pdf">
+          <img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRThFQUYwIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDN2MTIiLz48cGF0aCBkPSJtNyAxMCA1IDUgNS01Ii8+PHBhdGggZD0iTTUgMjFoMTQiLz48L3N2Zz4=">
+          Resume
+        </a>
+      </div>
+      <div class="hero-meta">
+        <div><img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOUFBMUIyIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDIyczctNi4yIDctMTJhNyA3IDAgMSAwLTE0IDBjMCA1LjggNyAxMiA3IDEyeiIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTAiIHI9IjIuNSIvPjwvc3ZnPg==">Munich, Germany</div>
+        <a href="https://www.linkedin.com/in/azwad-islam/" target="_blank" rel="noopener"><img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzlBQTFCMiI+PHBhdGggZD0iTTIwLjQ1IDIwLjQ1aC0zLjU2di01LjU3YzAtMS4zMy0uMDItMy4wNC0xLjg1LTMuMDQtMS44NSAwLTIuMTQgMS40NS0yLjE0IDIuOTR2NS42N0g5LjM1VjloMy40MXYxLjU2aC4wNWMuNDgtLjkgMS42NC0xLjg1IDMuMzctMS44NSAzLjYgMCA0LjI3IDIuMzcgNC4yNyA1LjQ2djYuMjh6TTUuMzQgNy40M2EyLjA2IDIuMDYgMCAxIDEgMC00LjEzIDIuMDYgMi4wNiAwIDAgMSAwIDQuMTN6TTcuMTIgMjAuNDVIMy41NlY5aDMuNTZ2MTEuNDV6Ii8+PC9zdmc+">LinkedIn</a>
+        <a href="https://github.com/Azwad-Islam" target="_blank" rel="noopener"><img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzlBQTFCMiI+PHBhdGggZD0iTTEyIC41YTEyIDEyIDAgMCAwLTMuOCAyMy40Yy42LjEuOC0uMy44LS42di0yLjJjLTMuMy43LTQtMS40LTQtMS40LS41LTEuNC0xLjMtMS44LTEuMy0xLjgtMS4xLS43LjEtLjcuMS0uNyAxLjIuMSAxLjggMS4yIDEuOCAxLjIgMS4xIDEuOCAyLjggMS4zIDMuNSAxIC4xLS44LjQtMS4zLjgtMS42LTIuNy0uMy01LjUtMS4zLTUuNS01LjkgMC0xLjMuNS0yLjQgMS4yLTMuMi0uMS0uMy0uNS0xLjUuMS0zLjIgMCAwIDEtLjMgMy4zIDEuMmExMS41IDExLjUgMCAwIDEgNiAwQzE3LjMgNC42IDE4LjMgNSAxOC4zIDVjLjcgMS43LjIgMi45LjEgMy4yLjguOCAxLjIgMS45IDEuMiAzLjIgMCA0LjYtMi44IDUuNi01LjUgNS45LjQuNC44IDEuMS44IDIuMnYzLjNjMCAuMy4yLjcuOC42QTEyIDEyIDAgMCAwIDEyIC41eiIvPjwvc3ZnPg==">GitHub</a>
+        <a href="mailto:azwad.sachcha@gmail.com"><img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOUFBMUIyIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHJlY3QgeD0iMyIgeT0iNSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE0IiByeD0iMiIvPjxwYXRoIGQ9Im0zIDcgOSA2IDktNiIvPjwvc3ZnPg==">Email</a>
+      </div>
+    </div>
+    <div class="photo-wrap"><img class="photo" src="app/static/profile_headshot.jpg" alt="Azwad Islam Sachcha"></div>
+  </div>
+</header>
+
+<section class="block">
+  <div class="container">
+    <div class="eyebrow">Technical stack</div>
+    <h2>Tools I build with</h2>
+    <div class="grid-3">
+      <div class="card">
+        <div class="icon-box"><img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN0M5Q0ZGIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0iTTEyIDJhNCA0IDAgMCAxIDQgNHYxYTMgMyAwIDAgMSAzIDN2MWEzIDMgMCAwIDEtMSA1LjhWMThhNCA0IDAgMCAxLTggMCIvPjxwYXRoIGQ9Ik0xMiAyYTQgNCAwIDAgMC00IDR2MWEzIDMgMCAwIDAtMyAzdjFhMyAzIDAgMCAwIDEgNS44VjE4YTQgNCAwIDAgMCA0IDQiLz48cGF0aCBkPSJNMTIgMnYyMCIvPjwvc3ZnPg=="></div>
+        <h3>Data Science &amp; AI</h3>
+        <div class="tags"><span class="tag">Python</span><span class="tag">SQL</span><span class="tag">PyTorch</span><span class="tag">TensorFlow</span><span class="tag">TensorRT</span><span class="tag">ONNX Runtime</span><span class="tag">Machine learning</span><span class="tag">Deep learning</span><span class="tag">Computational statistics</span></div>
+      </div>
+      <div class="card">
+        <div class="icon-box"><img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN0M5Q0ZGIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBhdGggZD0ibTE2IDE4IDYtNi02LTYiLz48cGF0aCBkPSJtOCA2LTYgNiA2IDYiLz48L3N2Zz4="></div>
+        <h3>Software Engineering</h3>
+        <div class="tags"><span class="tag">C#</span><span class="tag">ASP.NET Core</span><span class="tag">Angular</span><span class="tag">Blazor MAUI</span><span class="tag">Node.js</span><span class="tag">JavaScript</span><span class="tag">C++</span><span class="tag">Java</span><span class="tag">PHP</span><span class="tag">HTML / CSS / Sass</span><span class="tag">Bootstrap</span></div>
+      </div>
+      <div class="card">
+        <div class="icon-box"><img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjN0M5Q0ZGIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PGVsbGlwc2UgY3g9IjEyIiBjeT0iNSIgcng9IjgiIHJ5PSIzIi8+PHBhdGggZD0iTTQgNXYxNGMwIDEuNyAzLjYgMyA4IDNzOC0xLjMgOC0zVjUiLz48cGF0aCBkPSJNNCAxMmMwIDEuNyAzLjYgMyA4IDNzOC0xLjMgOC0zIi8+PC9zdmc+"></div>
+        <h3>Data Modeling &amp; Tools</h3>
+        <div class="tags"><span class="tag">PostgreSQL</span><span class="tag">SQL Server</span><span class="tag">MySQL</span><span class="tag">Entity Framework Core</span><span class="tag">Relational schema design</span><span class="tag">Knowledge graphs</span><span class="tag">Git / GitHub</span></div>
+      </div>
+    </div>
+    <div class="langs">
+      <div class="card lang"><strong>Bengali</strong><span>Native</span></div>
+      <div class="card lang"><strong>English</strong><span>Proficient (C1/C2)</span></div>
+      <div class="card lang"><strong>German</strong><span>Learning (A1)</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="projects">
+  <div class="container">
+    <div class="eyebrow">Featured work</div>
+    <h2>Selected projects</h2>
+    <div class="grid-3 grid-2">
+      <div class="card project">
+        <div class="project-cover cover-1">🎧</div>
+        <div class="project-body">
+          <h3>Audio Emotion Detection</h3>
+          <p>B.Sc. thesis (team of four): a hybrid BiLSTM-Transformer for speech emotion recognition in PyTorch on the RAVDESS dataset (1,344 samples, seven emotions), outperforming CNN baselines.</p>
+          <div class="metric">79% validation accuracy</div>
+          <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Transformers</span><span class="tag">Bi-LSTM</span></div>
+        </div>
+      </div>
+      <div class="card project">
+        <div class="project-cover cover-2">💻</div>
+        <div class="project-body">
+          <h3>Multi-Platform Restaurant POS</h3>
+          <p>Multi-tenant POS system at Threesquare that turns real restaurant operations (orders, tables, payments, roles) into a data model and business logic, backed by a PostgreSQL data layer.</p>
+          <div class="tags"><span class="tag">C#</span><span class="tag">ASP.NET Core</span><span class="tag">Angular</span><span class="tag">Blazor MAUI</span><span class="tag">PostgreSQL</span></div>
+        </div>
+      </div>
+      <div class="card project">
+        <div class="project-cover cover-3">📊</div>
+        <div class="project-body">
+          <h3>Sensor Data Processing</h3>
+          <p>Automated Python scripts for accelerometer calibration and raw sensor data processing (M.Eng. coursework).</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">NumPy</span></div>
+        </div>
+      </div>
+      <div class="card project">
+        <div class="project-cover cover-4">🏛️</div>
+        <div class="project-body">
+          <h3>AI &amp; ML to Protect Heritage Sites in Bangladesh</h3>
+          <p>Research paper (2024, team of three): a systematic literature review of 2005–2024 work on AI for climate risk, predictive maintenance and sustainable tourism at cultural heritage sites, identifying research gaps and proposing a practical framework.</p>
+          <div class="tags"><span class="tag">Research</span><span class="tag">Systematic review</span><span class="tag">AI for sustainability</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="experience">
+  <div class="container">
+    <div class="eyebrow">Background</div>
+    <h2>Experience &amp; education</h2>
+    <div class="two-col">
+      <div>
+        <div class="col-title">Experience</div>
+        <div class="timeline">
+          <div class="card entry">
+            <div class="entry-head"><h3>Junior Software Engineer</h3><span class="date">Jul 2025 - Aug 2026</span></div>
+            <div class="org">Threesquare · Dhaka, Bangladesh</div>
+            <ul>
+              <li>Translated real restaurant operations into the data model and business logic of a multi-platform POS system.</li>
+              <li>Designed and managed the PostgreSQL data layer, keeping transactional data consistent across platforms.</li>
+              <li>Built full-stack and cross-platform features with C#, ASP.NET Core, Angular and Blazor MAUI Hybrid.</li>
+            </ul>
+          </div>
+          <div class="card entry">
+            <div class="entry-head"><h3>Software Engineering Intern</h3><span class="date">Mar 2025 - Jun 2025</span></div>
+            <div class="org">Threesquare · Dhaka, Bangladesh · Mandatory B.Sc. internship</div>
+            <ul>
+              <li>Designed database schemas with Entity Framework Core and PostgreSQL for a multi-tenant restaurant POS.</li>
+              <li>Built backend APIs in C#/.NET with ASP.NET Identity authentication and role-based authorization.</li>
+              <li>Worked in a team on GitHub: code reviews, merge conflicts and shared contributions.</li>
+            </ul>
+          </div>
+          <div class="card entry">
+            <div class="entry-head"><h3>CEO &amp; Tournament Admin (volunteer)</h3><span class="date">Jan 2020 - Apr 2025</span></div>
+            <div class="org">Sabertooth Wolves esports</div>
+            <ul>
+              <li>Rose from player to CEO, leading teams across several countries.</li>
+              <li>Coordinated online tournaments with partners in India and China and admins and players from across South Asia.</li>
+            </ul>
+          </div>
+          <div class="card entry">
+            <div class="entry-head"><h3>Member</h3><span class="date">Jan 2022 - Jul 2025</span></div>
+            <div class="org">AIUB Competitive Programmers Community</div>
+            <ul>
+              <li>Practiced algorithmic problem-solving and took part in programming contests.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div id="education">
+        <div class="col-title">Education</div>
+        <div class="timeline">
+          <div class="card entry">
+            <div class="entry-head"><h3>M.Eng. Data Science &amp; AI</h3><span class="date">Oct 2026 - Present</span></div>
+            <div class="org">Munich University of Digital Technologies &amp; Applied Sciences</div>
+            <ul>
+              <li>Generative AI &amp; intelligent agents: LLMs, RAG, knowledge graphs and autonomous agent architectures.</li>
+              <li>Machine learning &amp; data engineering: predictive modeling, causal inference and large-scale data processing.</li>
+              <li>Responsible &amp; applied AI: fairness, transparency and accountability in finance, healthcare and manufacturing.</li>
+            </ul>
+          </div>
+          <div class="card entry">
+            <div class="entry-head"><h3>B.Sc. Computer Science &amp; Engineering</h3><span class="date">Jun 2021 - Dec 2025</span></div>
+            <div class="org">American International University-Bangladesh · Dhaka</div>
+            <ul>
+              <li>Thesis: hybrid BiLSTM-Transformer for speech emotion recognition (79% validation accuracy).</li>
+              <li>AI, machine learning, data science, data structures, algorithms, databases and operating systems.</li>
+              <li>Software engineering, OOAD, software quality &amp; testing and web technologies (C#, JavaScript, .NET).</li>
+              <li>Computational statistics &amp; probability, discrete mathematics, calculus and linear algebra.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block contact" id="contact">
+  <div class="container">
+    <div class="card contact-card">
+      <div class="eyebrow">Contact</div>
+      <h2>Let's build something together</h2>
+      <p>I'm seeking a working student role in software engineering or AI. I hold a residence permit for study and am eligible to work part-time in Germany.</p>
+      <div class="contact-actions">
+        <a class="btn btn-primary" href="mailto:azwad.sachcha@gmail.com">
+          <img class="icon" alt="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMEIwRDEyIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHJlY3QgeD0iMyIgeT0iNSIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE0IiByeD0iMiIvPjxwYXRoIGQ9Im0zIDcgOSA2IDktNiIvPjwvc3ZnPg==">
+          Email me
+        </a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/azwad-islam/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/Azwad-Islam" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <span>© 2026 Azwad Islam Sachcha</span>
+    <span>Munich, Germany</span>
+  </div>
+</footer>
+
+</div>
+
+<script>
+  // Streamlit scrolls an inner container, so native #anchor jumps don't move the page.
+  document.querySelectorAll('.site a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const target = document.getElementById(link.getAttribute('href').slice(1));
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>

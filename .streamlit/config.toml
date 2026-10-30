@@ -1,2 +1,9 @@
 [client]
 toolbarMode = "minimal"
+
+[server]
+enableStaticServing = true
+
+[theme]
+base = "dark"
+backgroundColor = "#0B0D12"
