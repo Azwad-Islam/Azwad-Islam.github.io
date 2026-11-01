@@ -93,7 +93,11 @@
   .site .project-link { margin-top: 18px; display: inline-flex; color: var(--accent); font-size: 14px; font-weight: 600; }
   .site .project-link:hover { text-decoration: underline; }
   .site .project-links { display: flex; flex-wrap: wrap; gap: 0 24px; }
-  .site .demo-frame { display: block; width: 100%; height: 100%; border: 0; }  .site .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .site .demo-frame { display: block; width: 100%; height: 100%; border: 0; }
+  /* Tall demo preview on the left, text on the right */
+  .site .project-side { flex-direction: row; }
+  .site .project-side .project-cover { flex: none; width: 260px; height: auto; min-height: 360px; border-bottom: 0; border-right: 1px solid var(--border); }
+  .site .project-side .project-body { flex: 1; min-width: 0; align-self: center; }  .site .grid-2 { grid-template-columns: repeat(2, 1fr); }
   .site .project-body { padding: 28px; }
   .site .metric { margin-top: 18px; display: inline-flex; padding: 6px 12px; border-radius: 8px; background: rgba(94, 230, 196, 0.12); color: var(--accent-2); font-size: 14px; font-weight: 600; }
 
@@ -130,6 +134,12 @@
     .site h2 { font-size: 32px; }
     .site .grid-3, .site .two-col { grid-template-columns: 1fr; }    .site .entry-head { flex-direction: column; gap: 2px; }
     .site .contact-card { padding: 48px 20px; }
+  }
+
+  /* Phone: stack the demo above the text again */
+  @media (max-width: 600px) {
+    .site .project-side { flex-direction: column; }
+    .site .project-side .project-cover { width: 100%; height: 420px; min-height: 0; border-right: 0; border-bottom: 1px solid var(--border); }
   }
 </style>
 
@@ -265,7 +275,7 @@
           <a class="project-link" href="https://github.com/Azwad-Islam/SoleMate---Shoe-Sales-Inventory-Platform" target="_blank" rel="noopener">View on GitHub →</a>
         </div>
       </div>
-      <div class="card project">
+      <div class="card project project-side">
         <div class="project-cover cover-6" data-demo-src="https://azwad-islam.github.io/Computer-Graphics-Project/" data-demo-title="Gotham Night live demo">🎨</div>
         <div class="project-body">
           <h3>Computer Graphics Project</h3>
