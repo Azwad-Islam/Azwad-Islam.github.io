@@ -385,7 +385,7 @@
 </div>
 
 <script>
-  // Streamlit scrolls an inner container, so native #anchor jumps don't move the page.
+  // Smooth-scroll to sections from the nav links and the logo.
   document.querySelectorAll('.site a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (event) => {
       const target = document.getElementById(link.getAttribute('href').slice(1));
@@ -395,9 +395,7 @@
     });
   });
 
-  // st.html strips iframe tags, so live demos are added to their project covers here.
-  // Keep HTML tags (an angle bracket followed by a letter) out of this script, even in comments:
-  // the sanitizer then drops the whole script.
+  // Load live demos into project covers that set data-demo-src.
   document.querySelectorAll('.site [data-demo-src]').forEach((cover) => {
     const frame = document.createElement('iframe');
     frame.className = 'demo-frame';
